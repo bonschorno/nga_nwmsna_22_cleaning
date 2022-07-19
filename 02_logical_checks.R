@@ -22,7 +22,7 @@ dim(data)
 # 5) Create vector with uuid already in log file so that they're ignored in the loop
 # 6) Loop over logical statements, transform data from list to dataset, and append to exisiting dataset
 
-logical_checks_xls <- read_xlsx("new_logicalchecks/logical_checks_rscript.xlsx") %>% 
+logical_checks_xls <- read_xlsx("new_logicalchecks/logical_checks_r.xlsx") %>% 
   slice(3:n())
 
 # vector with logics
@@ -43,10 +43,10 @@ issue_list <- list()
 identical(length(logical_statements_vect), length(problems_vect))
 
 # get uuids from already existing log files
-logical_checks_uuids_1 <- read_xlsx("old_logicalchecks/Data_logical_checks_R.xlsx") %>% 
+logical_checks_uuids_1 <- read_xlsx("old_logchecks/logical_checks_R.xlsx") %>% 
   pull(uuid)
 
-logical_checks_uuids_2 <- read_xlsx("old_logicalchecks/Data_logical_checks_R_2.xlsx") %>% 
+logical_checks_uuids_2 <- read_xlsx("old_logchecks/logical_checks_R_2.xlsx") %>% 
   pull(uuid)
 
 previous_log_uuids <- c(logical_checks_uuids_1, logical_checks_uuids_2) %>% 

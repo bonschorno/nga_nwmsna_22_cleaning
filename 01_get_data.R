@@ -3,6 +3,7 @@
 # Contact: colin.walder@reach-initiative.org
 
 rm(list = ls())
+options(scipen = 999)
 
 library(KoboconnectR)
 library(httr)
