@@ -102,26 +102,3 @@ if(file.exists("outlierchecks/outlierchecks_output.csv") == TRUE){
   write_csv(outlier_file, "outlierchecks/outlierchecks_output.csv",
             append = FALSE)
 }
-
-
-# Manual checks -----------------------------------------------------------------------
-
-options(scipen = 999)
-
-numeric_vars <- data %>% 
-  as.data.frame() %>% 
-  select(where(is.numeric), -contains("_gps"), -location_id_face, -"_id", -"_index") %>% 
-  summarise_all(n_distinct) %>% 
-  pivot_longer(everything(), names_to = "variable", values_to = "unique_values") %>% 
-  filter(unique_values > 3) %>% 
-  pull(variable)
-
-numeric_vars_exclude <- c("age_respondent", "sum_school_age_girls",
-                          "sum_school_age_boys", "start_to_end")
-
-numeric_vars_clean <- numeric_vars[!numeric_vars %in% numeric_vars_exclude]
-
-for (variable in numeric_vars_clean) {
-  output <- paste(variable, ":", quantile(data[[variable]], probs = 0.95, na.rm = TRUE))
-  print(output)
-}

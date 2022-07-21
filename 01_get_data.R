@@ -22,8 +22,10 @@ library(DBI)
 
 # create export URL for GET request
 new_export_url<- kobo_export_create(url="kobo.humanitarianresponse.info",
-                                    uname=rstudioapi::askForPassword("username"),
-                                    pwd=rstudioapi::askForPassword("password"),
+                                    #uname=rstudioapi::askForPassword("username"),
+                                    #pwd=rstudioapi::askForPassword("password"),
+                                    uname=Sys.getenv("KOBO_USERNAME"),
+                                    pwd=Sys.getenv("KOBO_PW"),
                                     assetid="afQibyWMd8En8dPUuc9k37", 
                                     type= "csv", 
                                     all="false", 
@@ -40,7 +42,9 @@ new_export_url
 date_today <- paste0(day(today()), "_", month(today()), "_", year(today()))
 
 # wait a little (30-60s for Kobo to process the URL request)
-df <- GET(new_export_url, authenticate(user=rstudioapi::askForPassword("username"), password =rstudioapi::askForPassword("password"))) 
+df <- GET(new_export_url, authenticate(user=Sys.getenv("KOBO_USERNAME"), 
+                                       password=Sys.getenv("KOBO_PW")))
+
 df_content <- content(df, type="raw",encoding = "UTF-8") 
 
 # path for most recent file
